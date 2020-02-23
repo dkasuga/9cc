@@ -29,6 +29,8 @@ static Node* new_num(long val)
     return node;
 }
 
+static Node* stmt(void);
+static Node* expr(void);
 static Node* equality(void);
 static Node* relational(void);
 static Node* add(void);
@@ -65,7 +67,7 @@ static Node* stmt(void)
 }
 
 // expr = equality
-Node* expr(void)
+static Node* expr(void)
 {
     return equality();
 }
