@@ -1,8 +1,14 @@
-CFLAGS=-std=c11 -g -static
+CFLAGS=-std=c11 -g -static -fno-common
+SRCS=$(wildcard *.c)
+OBJS=$(SRCS:.c=.o)
 
-9cc: 9cc.c
 
-test: 9cc
+chibicc: $(OBJS)
+		$(CC) -o $@ $(OBJS) $(LDFLAGS)
+
+$(OBJS): chibi.h
+
+test: chibicc
 	./test.sh
 
 clean:
