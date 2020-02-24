@@ -118,8 +118,11 @@ Token* tokenize(void)
         }
 
         // Identifier
-        if ('a' <= *p && *p <= 'z') {
-            cur = new_token(TK_IDENT, cur, p++, 1);
+        if (is_alpha(*p)) {
+            char* q = p++; // 最初の位置文字目はalphabetじゃないとダメ
+            while (is_alnum(*p))
+                p++;
+            cur = new_token(TK_IDENT, cur, q, p - q);
             continue;
         }
 
