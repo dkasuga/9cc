@@ -37,6 +37,16 @@ bool consume(char* op)
     return true;
 }
 
+// Consumes the current token if it is an identifier.
+Token* consume_ident(void)
+{
+    if (token->kind != TK_IDENT)
+        return NULL;
+    Token* t = token; // tにtokenを保存して
+    token = token->next; // 次に進む
+    return t;
+}
+
 // Ensure that the current token is `op`.
 void expect(char* op)
 {
@@ -104,6 +114,12 @@ Token* tokenize(void)
         if (startswith(p, "return") && !is_alnum(p[6])) {
             cur = new_token(TK_RESERVED, cur, p, 6);
             p += 6;
+            continue;
+        }
+
+        // Identifier
+        if ('a' <= *p && *p <= 'z') {
+            cur = new_token(TK_IDENT, cur, p++, 1);
             continue;
         }
 
