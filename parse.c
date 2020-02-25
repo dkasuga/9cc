@@ -254,7 +254,8 @@ static Node* unary(void)
     return primary();
 }
 
-// primary = "(" expr ")" | ident | num
+// primary = "(" expr ")" | ident args? | num
+// args = "(" ")"
 static Node* primary(void)
 {
     if (consume("(")) {
@@ -265,6 +266,15 @@ static Node* primary(void)
 
     Token* tok = consume_ident();
     if (tok) {
+        // Function Call
+        if (consume("(")) {
+            expect(")");
+            Node* node = new_node(ND_FUNCALL);
+            node->funcname = strndup(tok->str, tok->len);
+            return node;
+        }
+
+        // Variable
         Var* var = find_var(tok);
         if (!var)
             var = new_lvar(strndup(tok->str, tok->len));
