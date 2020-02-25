@@ -1,5 +1,8 @@
 #include "chibi.h"
 
+//
+// Tokenizer
+//
 char* user_input;
 Token* token;
 
